@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ app_name }} · 首页{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">FastAPI · Async SQLAlchemy · JWT</p>
+    <h1>一个能跑起来的论坛骨架</h1>
+    <p class="hero-text">版块、主题、楼层、登录注册、权限与分页都已接通，后续直接在这个骨架上长业务。</p>
+  </div>
+  <a class="button" href="/topics/new">发一个新帖</a>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <h2>版块</h2>
+    <span>{{ boards|length }} 个版块</span>
+  </div>
+  <div class="board-grid">
+    {% for board in boards %}
+      <a class="board-card" href="/boards/{{ board.slug }}">
+        <div class="board-card-top">
+          <h3>{{ board.name }}</h3>
+          <span>{{ board.topic_count }} 主题</span>
+        </div>
+        <p>{{ board.description or "暂无简介" }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <h2>最新主题</h2>
+    <a href="/boards/general">去版块看看</a>
+  </div>
+  {% include "_topic_list.html" %}
+</section>
+{% endblock %}

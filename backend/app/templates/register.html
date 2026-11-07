@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}注册 · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <p class="eyebrow">加入讨论</p>
+  <h1>注册</h1>
+  {% if error %}<div class="alert alert-error">{{ error }}</div>{% endif %}
+  <form method="post" action="/register">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>
+      <span>用户名</span>
+      <input name="username" value="{{ form.username or '' }}" pattern="[A-Za-z0-9_]{3,32}" autocomplete="username" required autofocus>
+      <small>3-32 位，仅字母、数字和下划线</small>
+    </label>
+    <label>
+      <span>邮箱</span>
+      <input name="email" type="email" value="{{ form.email or '' }}" autocomplete="email" required>
+    </label>
+    <label>
+      <span>密码</span>
+      <input name="password" type="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+      <small>至少 8 位</small>
+    </label>
+    <button class="button button-block" type="submit">创建账号</button>
+  </form>
+  <p class="auth-switch">已有账号？<a href="/login">直接登录</a></p>
+</section>
+{% endblock %}

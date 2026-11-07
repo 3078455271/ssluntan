@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}发帖 · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="form-card">
+  <p class="eyebrow">新建主题</p>
+  <h1>发帖</h1>
+  {% if error %}<div class="alert alert-error">{{ error }}</div>{% endif %}
+  <form method="post" action="/topics/new">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>
+      <span>版块</span>
+      <select name="board_id" required>
+        {% for board in boards %}
+          <option value="{{ board.id }}" {% if board.id == board_id %}selected{% endif %}>{{ board.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>
+      <span>标题</span>
+      <input name="title" value="{{ form.title or '' }}" minlength="2" maxlength="200" required autofocus>
+    </label>
+    <label>
+      <span>正文</span>
+      <textarea name="content" rows="10" maxlength="20000" required>{{ form.content or '' }}</textarea>
+    </label>
+    <button class="button" type="submit">发布主题</button>
+  </form>
+</section>
+{% endblock %}

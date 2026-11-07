@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ topic.title }} · {{ app_name }}{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb">
+  <a href="/">首页</a>
+  <span>/</span>
+  <a href="/boards/{{ topic.board.slug }}">{{ topic.board.name }}</a>
+  <span>/</span>
+  <span>{{ topic.title }}</span>
+</nav>
+
+<section class="topic-header">
+  <div class="topic-title-line">
+    {% if topic.is_pinned %}<span class="badge badge-pin">置顶</span>{% endif %}
+    {% if topic.is_locked %}<span class="badge badge-lock">已锁</span>{% endif %}
+    <h1>{{ topic.title }}</h1>
+  </div>
+  <div class="topic-meta">
+    <span>{{ topic.author.username }}</span>
+    <span>{{ topic.created_at|dt }}</span>
+    <span>{{ topic.views }} 浏览</span>
+    <span>{{ topic.reply_count }} 回复</span>
+  </div>
+</section>
+
+{% if error %}<div class="alert alert-error">{{ error }}</div>{% endif %}
+
+<div class="post-list">
+  {% for post in posts %}
+    <article class="post-card" id="floor-{{ post.floor }}">
+      <aside class="post-author">
+        <div class="avatar">{{ post.author.username[:1]|upper }}</div>
+        <strong>{{ post.author.username }}</strong>
+        {% if post.is_op %}<span class="badge badge-op">楼主</span>{% endif %}
+        <span class="muted">#{{ post.floor }}</span>
+      </aside>
+      <div class="post-body">
+        <div class="post-time">{{ post.created_at|dt }}</div>
+        <div class="post-content">{{ post.content }}</div>
+      </div>
+    </article>
+  {% else %}
+    <div class="empty-state">还没有帖子。</div>
+  {% endfor %}
+</div>
+
+{% include "_pagination.html" %}
+
+<section class="reply-box">
+  {% if topic.is_locked %}
+    <div class="empty-state">主题已锁定，不能再回复。</div>
+  {% elif current_user %}
+    <h2>回复主题</h2>
+    <form method="post" action="/topics/{{ topic.id }}/reply">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <textarea name="content" rows="6" maxlength="20000" required placeholder="写下你的回复……"></textarea>
+      <button class="button" type="submit">发布回复</button>
+    </form>
+  {% else %}
+    <div class="empty-state">
+      <a href="/login?next=/topics/{{ topic.id }}">登录</a> 后参与回复。
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

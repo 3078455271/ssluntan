@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ app_name }}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">{{ app_name }}<span class="brand-dot">.</span></a>
+      <nav class="nav-links">
+        <a href="/">首页</a>
+        {% if current_user %}
+          <a href="/topics/new">发帖</a>
+          <span class="user-chip">{{ current_user.username }}</span>
+          <form method="post" action="/logout" class="inline-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit" class="link-button">退出</button>
+          </form>
+        {% else %}
+          <a href="/login">登录</a>
+          <a class="button button-small" href="/register">注册</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>{{ app_name }} · FastAPI 论坛脚手架</span>
+      <a href="/docs">API 文档</a>
+    </div>
+  </footer>
+</body>
+</html>

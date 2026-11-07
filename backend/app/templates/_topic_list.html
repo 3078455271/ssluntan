@@ -1,0 +1,30 @@
+{% if topics %}
+  <div class="topic-list">
+    {% for topic in topics %}
+      <a class="topic-row" href="/topics/{{ topic.id }}">
+        <div class="topic-main">
+          <div class="topic-title">
+            {% if topic.is_pinned %}<span class="badge badge-pin">置顶</span>{% endif %}
+            {% if topic.is_locked %}<span class="badge badge-lock">已锁</span>{% endif %}
+            {{ topic.title }}
+          </div>
+          <div class="topic-meta">
+            <span class="board-tag">{{ topic.board.name }}</span>
+            <span>{{ topic.author.username }}</span>
+            <span>{{ topic.created_at|dt }}</span>
+          </div>
+        </div>
+        <div class="topic-stats">
+          <strong>{{ topic.reply_count }}</strong>
+          <span>回复</span>
+        </div>
+        <div class="topic-stats">
+          <strong>{{ topic.views }}</strong>
+          <span>浏览</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">这里还没有主题，来发第一帖吧。</div>
+{% endif %}

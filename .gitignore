@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Local data / secrets
+.env
+*.db
+*.db-journal
+*.sqlite3
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Editors / OS
+.idea/
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+**/tests/test.db
+**/tests/test.db-journal
+
+# Dev server logs
+backend/*.log
+frontend/*.log

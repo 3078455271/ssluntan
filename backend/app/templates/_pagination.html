@@ -1,0 +1,15 @@
+{% if pages > 1 %}
+  <nav class="pagination" aria-label="分页">
+    {% if page > 1 %}
+      <a href="{{ base_url }}?page={{ page - 1 }}">上一页</a>
+    {% else %}
+      <span class="disabled">上一页</span>
+    {% endif %}
+    <span>第 {{ page }} / {{ pages }} 页</span>
+    {% if page < pages %}
+      <a href="{{ base_url }}?page={{ page + 1 }}">下一页</a>
+    {% else %}
+      <span class="disabled">下一页</span>
+    {% endif %}
+  </nav>
+{% endif %}

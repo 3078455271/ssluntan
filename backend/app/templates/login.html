@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}登录 · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <p class="eyebrow">欢迎回来</p>
+  <h1>登录</h1>
+  {% if error %}<div class="alert alert-error">{{ error }}</div>{% endif %}
+  <form method="post" action="/login">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input type="hidden" name="next" value="{{ next }}">
+    <label>
+      <span>用户名或邮箱</span>
+      <input name="username" autocomplete="username" required autofocus>
+    </label>
+    <label>
+      <span>密码</span>
+      <input name="password" type="password" autocomplete="current-password" required>
+    </label>
+    <button class="button button-block" type="submit">登录</button>
+  </form>
+  <p class="auth-switch">还没有账号？<a href="/register">注册一个</a></p>
+</section>
+{% endblock %}
